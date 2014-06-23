@@ -64,8 +64,8 @@ class Obfuscator
         puts 'Obfuscating issues.'
         db[:issues].select(:id).each do |issue|
           db[:issues].where(id: issue[:id]).update(
-          subject: Faker::Lorem.word,
-          description: Faker::Lorem.sentence
+          subject: Faker::Lorem.sentence(4)[0, 255],
+          description: Faker::Lorem.sentences(10).join(' ')
           )
         end
        end
@@ -73,11 +73,11 @@ class Obfuscator
       def obfuscate_projects
         puts 'Obfuscating projects.'
         db[:projects].select(:id).each do |project|
-          db[:project].where(id: project[:id]).update(
-          name: Faker::Lorem.word,
-          decription: Faker::Lorem.word,
-          homepage: Faker::Lorem.Internet.url,
-          identifier: project[id].to_s
+          db[:projects].where(id: project[:id]).update(
+          name: Faker::Lorem.sentence(2)[0, 255],
+          description: Faker::Lorem.sentences(10).join(' '),
+          homepage: Faker::Internet.url,
+          identifier: Faker::Lorem.word
           )
         end
       end
@@ -85,7 +85,7 @@ class Obfuscator
       def obfuscate_attachments
         puts 'Obfuscationg attachments'
         db[:attachments].select(:id).each do |attachment|
-          db[:attachment].where(id: attachment[:id]).update(
+          db[:attachments].where(id: attachment[:id]).update(
           filename: Faker::Lorem.word,
           disk_filename: Faker::Lorem.word,
           description: Faker::Lorem.sentence
@@ -118,8 +118,8 @@ class Obfuscator
           puts 'Obfuscating changesets'
           db[:changesets].select(:id).each do |changeset|
             db[:changesets].where(id: changeset[:id]).update(
-            commiter: Faker::Internet.user_name,
-            comments: Faker::Lorem.paragpaph
+            committer: Faker::Internet.user_name,
+            comments: Faker::Lorem.paragraph
             )
           end
         end
@@ -153,7 +153,7 @@ class Obfuscator
       db[:documents].select(:id).each do |document|
         db[:documents].where(id: document[:id]).update(
         title: Faker::Lorem.word,
-        description: Faker::Lorem.paragpaph
+        description: Faker::Lorem.paragraph
         )
       end
     end
@@ -162,8 +162,8 @@ class Obfuscator
       puts 'Obfuscating journal details'
       db[:journal_details].select(:id).each do |journal_detail|
         db[:journal_details].where(id: journal_detail[:id]).update(
-        old_value: Faker::Lorem.paragpaph,
-        value: Faker::Lorem.paragpaph
+        old_value: Faker::Lorem.paragraph,
+        value: Faker::Lorem.paragraph
         )
       end
     end
@@ -172,7 +172,7 @@ class Obfuscator
       puts 'Obfuscating journals'
       db[:journals].select(:id).each do |journal|
         db[:journals].where(id: journal[:id]).update(
-        notes: Faker::Lorem.paragpaph
+        notes: Faker::Lorem.paragraph
         )
       end
     end
@@ -181,7 +181,7 @@ class Obfuscator
       puts 'Obfuscating messages'
       db[:messages].select(:id).each do |message|
         db[:messages].where(id: message[:id]).update(
-        content: Faker::Lorem.paragpaph,
+        content: Faker::Lorem.paragraph,
         subject: Faker::Lorem.sentence
         )
       end
@@ -192,7 +192,7 @@ class Obfuscator
       db[:news].select(:id).each do |news|
         db[:news].where(id: news[:id]).update(
         summary: Faker::Lorem.sentence,
-        title: Faker::Lorem.sentence,
+        title: Faker::Lorem.sentence[0, 60],
         description: Faker::Lorem.sentence
         )
       end
@@ -215,7 +215,7 @@ class Obfuscator
         url: Faker::Internet.url,
         login: Faker::Internet.user_name,
         password: Faker::Internet.password,
-        root_url: Faker::Internet.root_url,
+        root_url: Faker::Internet.url,
         extra_info: Faker::Lorem.sentence
         )
       end
@@ -226,7 +226,7 @@ class Obfuscator
       puts 'Obfuscating time entries'
       db[:time_entries].select(:id).each do |time_entry|
         db[:time_entries].where(id: time_entry[:id]).update(
-        comments: Faker::Lorem.sentence
+        comments: Faker::Lorem.sentence(6)
         )
       end
     end
@@ -236,25 +236,26 @@ class Obfuscator
       db[:versions].select(:id).each do |version|
         db[:versions].where(id: version[:id]).update(
         name: Faker::Lorem.word,
-        descriprion: Faker::Lorem.paragprah,
-        wiki_page_title: Faker::Lorem.sentence
+        description: Faker::Lorem.paragraph,
+        wiki_page_title: Faker::Lorem.sentence(5)
         )
       end
     end
 
     def obfuscate_wiki_content_versions
       puts 'Obfuscating content versions'
-      db[:content_versions].select(:id).each do |content_version|
-        db[:content_versions].where(id: content_version[:id]).update(
+      db[:wiki_content_versions].select(:id).each do |content_version|
+        db[:wiki_content_versions].where(id: content_version[:id]).update(
         comments: Faker::Lorem.sentence,
         data: Faker::Lorem.sentence
         )
       end
     end
+
     def obfuscate_wiki_contents
       puts 'Obfuscating wiki contents'
       db[:wiki_contents].select(:id).each do |wiki_content|
-        db[:wiki_contens].where(id: wiki_content[:id]).update(
+        db[:wiki_contents].where(id: wiki_content[:id]).update(
         comments: Faker::Lorem.sentence
         )
       end
