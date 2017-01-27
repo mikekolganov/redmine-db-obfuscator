@@ -236,7 +236,7 @@ class Obfuscator
       db[:versions].select(:id).each do |version|
         db[:versions].where(id: version[:id]).update(
         name: Faker::Lorem.word,
-        description: Faker::Lorem.paragraph,
+        description: Faker::Lorem.sentence,
         wiki_page_title: Faker::Lorem.sentence(5)
         )
       end
@@ -275,7 +275,7 @@ class Obfuscator
       db[:wiki_redirects].select(:id).each do |wiki_redirect|
         db[:wiki_redirects].where(id: wiki_redirect[:id]).update(
         title: Faker::Lorem.sentence,
-        redirect_to: Faker::Internet.url
+        redirects_to: Faker::Internet.url
         )
       end
     end
